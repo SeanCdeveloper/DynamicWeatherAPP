@@ -10,6 +10,18 @@
 </head>
 
 <body>
+    <!--Code for City Search-->
+
+    <div class="container"></div>
+    <h1>Search for a City</h1>
+    <form>
+    <!--Button type="submit" to trigger new movie addition-->
+    <input type="text" id="cityInput"/>
+    <input type="submit" id="addCity" value="Add A City"/>
+
+    <div id="buttonsView">Button's View</div>   
+    </form>
+
 
     <!--Retreived Data will Go Here-->
     <div class="city"></div>
@@ -19,9 +31,12 @@
     <div class="humidity"></div>
     <div id="icon"><img id="wIcon" src="" alt=WeatherIcon></div>
     <div class="uvIndex"></div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript">
+    
+
         var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
 
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=" + APIkey;
@@ -48,7 +63,6 @@
             var Kelvin = response.main.temp;
             var Farenheit = (Kelvin - 273.15) * 1.80 + 32;
             $(".temp").text(Kelvin + " Kelvin | " + " Farenheit = " + Farenheit + " Farenheit");
-
         });
 
         $.ajax({
