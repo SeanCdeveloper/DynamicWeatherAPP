@@ -1,0 +1,63 @@
+<!--Starter Code with Icon and UV Index included with other Weather Argumentss-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Week 06: Example 5 Demo</title>
+</head>
+
+<body>
+
+    <!--Retreived Data will Go Here-->
+    <div class="city"></div>
+    <div class="wind"></div>
+    <div class="humidity"></div>
+    <div class="temp"></div>
+    <div class="humidity"></div>
+    <div id="icon"><img id="wIcon" src="" alt=WeatherIcon></div>
+    <div class="uvIndex"></div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script type="text/javascript">
+        var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
+
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=" + APIkey;
+        
+        var queryURL2 = "https://api.openweathermap.org/data/2.5/uvi?lat=39.95&lon=-75.16&appid=" + APIkey;
+       
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(queryURL);
+            console.log(response);
+            console.log(response.wind.speed);
+            console.log(response.weather[0].icon);
+            $(".city").text(response.name + "," + response.sys.country);
+            $(".wind").text("Wind Speed: " + response.wind.speed);
+            $(".humidity").text("Humidity: " + response.main.humidity);
+            $(".temp").text("Temperature: " + response.main.temp);
+
+            var imgCode = response.weather[0].icon;
+            var imageURL = "http://openweathermap.org/img/w/" + imgCode + ".png";
+            $("#wIcon").attr("src", imageURL);
+
+            var Kelvin = response.main.temp;
+            var Farenheit = (Kelvin - 273.15) * 1.80 + 32;
+            $(".temp").text(Kelvin + " Kelvin | " + " Farenheit = " + Farenheit + " Farenheit");
+
+        });
+
+        $.ajax({
+            url: queryURL2,
+            method: "GET"
+        }).then(function(response) {
+            console.log();
+            $(".uvIndex").html("<b>UV Index:  </b>" + response.value);
+        });
+    </script>
+</body>
+</html>
