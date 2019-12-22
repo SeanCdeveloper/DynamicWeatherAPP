@@ -1,27 +1,28 @@
 <!--Starter Code with Icon and UV Index included with other Weather Argumentss-->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Week 06: Example 5 Demo</title>
 </head>
-
 <body>
     <!--Code for City Search-->
-
     <div class="container"></div>
     <h1>Search for a City</h1>
-    <form>
+    
+    <form id="citySearch">
+
+    <!--Input Field To Search for New Cities-->
+    <input type="text" id="cityQuery"/>
+
     <!--Button type="submit" to trigger new movie addition-->
-    <input type="text" id="cityInput"/>
-    <input type="submit" id="addCity" value="Add A City"/>
-
-    <div id="buttonsView">Button's View</div>   
+    <input id="addCitybtn" type="submit" value="Add A City"/>
+    
+    <!--Element To Append Cities Searched To-->
+    <div id="dynamicCityDisplay"></div>   
     </form>
-
 
     <!--Retreived Data will Go Here-->
     <div class="city"></div>
@@ -38,16 +39,16 @@
     
 
         var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
-
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=" + APIkey;
+// Change to weatherURL + uviURL  below:
+        var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=" + APIkey;
         
-        var queryURL2 = "https://api.openweathermap.org/data/2.5/uvi?lat=39.95&lon=-75.16&appid=" + APIkey;
+        var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=39.95&lon=-75.16&appid=" + APIkey;
        
         $.ajax({
-            url: queryURL,
+            url: weatherURL,
             method: "GET"
         }).then(function (response) {
-            console.log(queryURL);
+            console.log(weatherURL);
             console.log(response);
             console.log(response.wind.speed);
             console.log(response.weather[0].icon);
@@ -61,17 +62,44 @@
             $("#wIcon").attr("src", imageURL);
 
             var Kelvin = response.main.temp;
-            var Farenheit = (Kelvin - 273.15) * 1.80 + 32;
+            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
             $(".temp").text(Kelvin + " Kelvin | " + " Farenheit = " + Farenheit + " Farenheit");
         });
 
         $.ajax({
-            url: queryURL2,
+            url: uviURL,
             method: "GET"
         }).then(function(response) {
             console.log();
             $(".uvIndex").html("<b>UV Index:  </b>" + response.value);
         });
+   
+        /* Searching for New Cities */
+
+        var cities = [];
+
+        $("#addCitybtn").on("click", function() {
+            event.preventDefault();
+            console.log(event.target);
+            var searchedCity = $("#cityQuery").val().trim();
+            console.log(searchedCity);
+            cities.push(searchedCity); 
+            console.log(cities);    
+            renderButtons();       
+        });
+
+        function renderButtons() {
+            $("#dynamicCityDisplay").empty();
+            for (var i=0; i<cities.length; i++) {
+                var a = $("<button>");
+                a.addClass("newCity");
+                a.attr("data-name", cities[i]);
+                a.text(cities[i]);
+                $("#dynamicCityDisplay").append(a);
+            }
+        }
+
+        $(document).on("click", ".newCity", displayCityInfo);
     </script>
 </body>
 </html>
