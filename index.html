@@ -6,44 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Week 06: Example 5 Demo</title>
+    <!--
+    <script src="./Assets/JavaScript/script.js"></script>
+    -->
 </head>
 <body>
     <!--Code for City Search-->
-    <div class="container"></div>
-    <h1>Search for a City</h1>
-    
-    <form id="citySearch">
+    <div class="container">
+        <h1>Search for a City</h1>
 
-    <!--Input Field To Search for New Cities-->
-    <input type="text" id="cityQuery"/>
+        <!--Form Elements Start-->
+        <form id="Search">
 
-    <!--Button type="submit" to trigger new movie addition-->
-    <input id="addCitybtn" type="submit" value="Add A City"/>
-    
-    <!--Element To Append Cities Searched To-->
-    <div id="dynamicCityDisplay"></div>   
-    </form>
+            <!--Input Field To Search for New Cities-->
+            <input type="text" id="cityQuery" />
 
-    <!--Retreived Data will Go Here-->
-    <div class="city"></div>
-    <div class="wind"></div>
-    <div class="humidity"></div>
-    <div class="temp"></div>
-    <div class="humidity"></div>
-    <div id="icon"><img id="wIcon" src="" alt=WeatherIcon></div>
-    <div class="uvIndex"></div>
+            <!--Button type="submit" to trigger new movie addition-->
+            <input id="addCitybtn" type="submit" value="Add A City"/>
 
+            <!--Element To Append Cities Searched To-->
+            <div id="dynamicCityDisplay"></div>
+
+        </form>
+        <!--Form Elements End-->
+
+        <!--Retreived Data will Go Here-->
+        <div class="city"></div>
+        <div class="wind"></div>
+        <div class="humidity"></div>
+        <div class="temp"></div>
+        <div class="humidity"></div>
+        <div id="icon"><img id="wIcon" src="" alt=WeatherIcon></div>
+        <div class="uvIndex"></div>
+        <div class="fiveDayForecast"></div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript">
-    
-
+    /*
+       Add "var latLong" Later: var latLong = "lat=39&long=-75.16"
+    */
         var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
-// Change to weatherURL + uviURL  below:
+        /* Changing "Philadelphia" as searched City to "var searchedCity" */
         var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=" + APIkey;
-        
         var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=39.95&lon=-75.16&appid=" + APIkey;
-       
+        var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=Philadelphia&appid=" + APIkey;
+
         $.ajax({
             url: weatherURL,
             method: "GET"
@@ -56,7 +64,6 @@
             $(".wind").text("Wind Speed: " + response.wind.speed);
             $(".humidity").text("Humidity: " + response.main.humidity);
             $(".temp").text("Temperature: " + response.main.temp);
-
             var imgCode = response.weather[0].icon;
             var imageURL = "http://openweathermap.org/img/w/" + imgCode + ".png";
             $("#wIcon").attr("src", imageURL);
@@ -69,28 +76,40 @@
         $.ajax({
             url: uviURL,
             method: "GET"
-        }).then(function(response) {
-            console.log();
+        }).then(function (response) {
             $(".uvIndex").html("<b>UV Index:  </b>" + response.value);
         });
-   
+
+        $.ajax({
+            url: fiveDayURL,
+            method: "GET"
+        }).then(function(response) {
+            console.log(response);
+            console.log(response.list[0].weather[0]);
+            $(".fiveDayForecast").text(response.list.weather.id);
+        });
+
+        
+
         /* Searching for New Cities */
 
         var cities = [];
-
-        $("#addCitybtn").on("click", function() {
+        /*
+        var searchedCity = $("#cityQuery").val().trim();
+        */
+        $("#addCitybtn").on("click", function () {
             event.preventDefault();
             console.log(event.target);
             var searchedCity = $("#cityQuery").val().trim();
             console.log(searchedCity);
-            cities.push(searchedCity); 
-            console.log(cities);    
-            renderButtons();       
+            cities.push(searchedCity);
+            console.log(cities);
+            renderButtons();
         });
 
         function renderButtons() {
             $("#dynamicCityDisplay").empty();
-            for (var i=0; i<cities.length; i++) {
+            for (var i = 0; i < cities.length; i++) {
                 var a = $("<button>");
                 a.addClass("newCity");
                 a.attr("data-name", cities[i]);
@@ -98,7 +117,6 @@
                 $("#dynamicCityDisplay").append(a);
             }
         }
-
         $(document).on("click", ".newCity", displayCityInfo);
     </script>
 </body>
