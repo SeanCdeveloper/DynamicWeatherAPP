@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Week 06: Example 5 Demo</title>
+    <title>Dynamic Weather APP</title>
     <!--
     <script src="./Assets/JavaScript/script.js"></script>
     -->
@@ -35,13 +35,10 @@
         var cities = []; 
 
         function displayCityInfo() {
-            console.log("hello");
-            var movie = $(this).attr("data-name");
-            console.log(movie);
+            var searchedCity = $(this).attr("data-name");
         
         var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
-        /* Changing "Philadelphia" as searched City to "var searchedCity" */
-        var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=" + APIkey;
+        var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedCity + "&appid=" + APIkey;
         var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=39.95&lon=-75.16&appid=" + APIkey;
 
         $.ajax({
