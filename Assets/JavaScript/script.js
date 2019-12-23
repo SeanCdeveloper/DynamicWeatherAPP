@@ -60,3 +60,7 @@ var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
         }
 
         $(document).on("click", ".newCity", displayCityInfo);
+
+
+
+        
