@@ -33,14 +33,12 @@
         var cities = []; 
 
         function displayCityInfo() {
+
         var searchedCity = $(this).attr("data-name");
-
-        var City = "Philadelhpia";
-
         var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
         var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedCity + "&appid=" + APIkey;
         var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=39.95&lon=-75.16&appid=" + APIkey;
-        var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=Philadelphia,US" + "&appid=" + APIkey;
+        var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchedCity + "&appid=" + APIkey;
 
         $.ajax({
             url: weatherURL,
@@ -92,12 +90,8 @@
 
         $.ajax({
         url: fiveDayURL,
-        dataType: "json",
         method: "GET",
         data: {
-            q: City,
-            appid: APIkey,
-            units: "metric",
             cnt: "5"
         }
     }).then(function(response){
