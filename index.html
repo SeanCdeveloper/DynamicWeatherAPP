@@ -14,7 +14,6 @@
     <!--Code for City Search-->
     <div class="container">
         <div><h1 style="text-align: center">Weather Dashboard</h1></div>
-
         <form id="Search">
             <!--Input Field To Search for New Cities-->
             <label for="cityQuery">Search For a City:</label><br>
@@ -22,11 +21,10 @@
             <!--Button type="submit" to trigger new movie addition-->
             <input id="addCitybtn" type="submit" value="Add A City"/>
         </form>
-
         <div id="buttons-view"></div>
          <!--Element To Prepend Cities Searched To-->
         <div id="city-view"></div>
-
+        <div id="showWeatherForecast"></div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -35,11 +33,14 @@
         var cities = []; 
 
         function displayCityInfo() {
-            var searchedCity = $(this).attr("data-name");
-        
+        var searchedCity = $(this).attr("data-name");
+
+        var City = "Philadelhpia";
+
         var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
         var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedCity + "&appid=" + APIkey;
         var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=39.95&lon=-75.16&appid=" + APIkey;
+        var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=Philadelphia,US" + "&appid=" + APIkey;
 
         $.ajax({
             url: weatherURL,
@@ -51,7 +52,7 @@
             console.log(response.weather[0].icon);
             var cityDiv = $("<div class='cityDiv'>")
             var cityCntryDisp = response.name + ", " + response.sys.country;
-            var pOne = $("<p>").text(cityCntryDisp);
+            var pOne = $("<p>").text(cityCntryDisp + " (" + moment().format("L") + ")");
             cityDiv.append(pOne);
             var tempDisp = response.main.temp;
             var pTwo = $("<p>").text("Temperature: " + tempDisp)
@@ -88,12 +89,34 @@
             console.log(pFive);
             //$(".uvIndex").html("<b>UV Index:  </b>" + response.value);
         });
-        }
-        /* Searching for New Cities */
 
-        /*
-        var searchedCity = $("#cityQuery").val().trim();
-        */
+        $.ajax({
+        url: fiveDayURL,
+        dataType: "json",
+        method: "GET",
+        data: {
+            q: City,
+            appid: APIkey,
+            units: "metric",
+            cnt: "5"
+        }
+    }).then(function(response){
+        console.log(response);
+        var wf = "";
+        wf += "<h2>" + response.city.name + "</h2>";
+        $.each(response.list, function(index, val) {
+            wf += "<p>"; // Opening paragraph tag
+            wf += moment().format("L"); // Day <b>Day " + index + "</b>: | $("#currentDay").text(moment().format("LLLL"));
+            wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
+            wf += val.main.temp + "&degC"; // Temperature
+            wf += "<span> | " + val.weather[0].description + "</span>"; 
+            wf += "<span> | Humidity: " + val.main.humidity + "% </span>";           
+            wf += "</p>"; // Closing paragraph Tag
+            $("#showWeatherForecast").html(wf);
+        });
+    });
+
+        }
         $("#addCitybtn").on("click", function () {
             event.preventDefault();
             console.log(event.target);
