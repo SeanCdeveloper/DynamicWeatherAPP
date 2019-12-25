@@ -52,8 +52,9 @@
             var cityCntryDisp = response.name + ", " + response.sys.country;
             var pOne = $("<p>").text(cityCntryDisp + " (" + moment().format("L") + ")");
             cityDiv.append(pOne);
-            var tempDisp = response.main.temp;
-            var pTwo = $("<p>").text("Temperature: " + tempDisp)
+            var Kelvin = response.main.temp;
+            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
+            var pTwo = $("<p>").text("Temp: " + Farenheit + "˚F");
             cityDiv.append(pTwo);
             var humidityDisp = response.main.humidity;
             var pThree = $("<p>").text("Humidity: " + humidityDisp);
@@ -67,11 +68,6 @@
             cityDiv.append(imageDisp);
             $("#city-view").prepend(cityDiv);
            
-/*
-            var Kelvin = response.main.temp;
-            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-           // $(".temp").text(Kelvin + " Kelvin | " + " Farenheit = " + Farenheit + " Farenheit");
-*/
         });
         
         $.ajax({
@@ -112,7 +108,9 @@
             wf += "<p>"; // Opening paragraph tag
             wf += "<span>" + momentArr[index] + "</span>";
             wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
-            wf += val.main.temp + "&degC"; // Temperature
+            var Kelvin = val.main.temp;
+            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
+            wf += "Temp: " + Farenheit + "&degF"; // Temperature
             wf += "<span> | " + val.weather[0].description + "</span>"; 
             wf += "<span> | Humidity: " + val.main.humidity + "% </span>";           
             wf += "</p>"; // Closing paragraph Tag
