@@ -95,12 +95,23 @@
             cnt: "5"
         }
     }).then(function(response){
-        console.log(response);
-        var wf = "";
+        var wf = "";        
+        var wf = "";  
+        var d0 = moment().add(1, 'days').format("L");
+        var d1 = moment().add(2,'days').format("L");
+        var d2 = moment().add(3,'days').format("L");
+        var d3 = moment().add(4,'days').format("L");
+        var d4 = moment().add(5,'days').format("L");
+
+        var momentArr = [d0, d1, d2, d3, d4];
+
+        for (var i=0; i<momentArr.length; i++) {
+            console.log(momentArr[i]);
+        }
         wf += "<h2>" + response.city.name + "</h2>";
         $.each(response.list, function(index, val) {
             wf += "<p>"; // Opening paragraph tag
-            wf += moment().format("L"); // Day <b>Day " + index + "</b>: | $("#currentDay").text(moment().format("LLLL"));
+            wf += "<span>" + momentArr[index] + "</span>";
             wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
             wf += val.main.temp + "&degC"; // Temperature
             wf += "<span> | " + val.weather[0].description + "</span>"; 
@@ -109,8 +120,8 @@
             $("#showWeatherForecast").html(wf);
         });
     });
-
         }
+
         $("#addCitybtn").on("click", function () {
             event.preventDefault();
             console.log(event.target);
