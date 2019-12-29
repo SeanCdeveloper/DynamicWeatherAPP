@@ -9,6 +9,15 @@
     <!--
     <script src="./Assets/JavaScript/script.js"></script>
     -->
+    <style>
+        .five_day_div {
+            background: blue;
+            width: 20%;
+            color: white;
+            display: inline-block;
+            margin: 0 5% 5% 5%;
+        }
+    </style>
 </head>
 <body>
     <!--Code for City Search-->
@@ -24,6 +33,7 @@
         <div id="buttons-view"></div>
          <!--Element To Prepend Cities Searched To-->
         <div id="city-view"></div>
+        <div class="uvIndex"></div>
         <div id="showWeatherForecast"></div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -54,7 +64,7 @@
             cityDiv.append(pOne);
             var Kelvin = response.main.temp;
             var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-            var pTwo = $("<p>").text("Temp: " + Farenheit + "˚F");
+            var pTwo = $("<p>").text("Temp: " + Farenheit + " ˚F");
             cityDiv.append(pTwo);
             var humidityDisp = response.main.humidity;
             var pThree = $("<p>").text("Humidity: " + humidityDisp);
@@ -68,6 +78,11 @@
             cityDiv.append(imageDisp);
             $("#city-view").prepend(cityDiv);
            
+/*
+            var Kelvin = response.main.temp;
+            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
+           // $(".temp").text(Kelvin + " Kelvin | " + " Farenheit = " + Farenheit + " Farenheit");
+*/
         });
         
         $.ajax({
@@ -77,11 +92,7 @@
             console.log(response);
             var cityDiv = $("<div class='cityDiv'>")
             var uviDisp = response.value;
-            var pFive = $("<p>").text("UV Index: "
-             + uviDisp);
-            cityDiv.append(pFive);
-            console.log(pFive);
-            //$(".uvIndex").html("<b>UV Index:  </b>" + response.value);
+            $(".uvIndex").html("<b>UV Index:  </b>" + response.value);
         });
 
         $.ajax({
@@ -91,7 +102,7 @@
             cnt: "5"
         }
     }).then(function(response){
-        var wf = "";        
+        var wf = "";  
         var d0 = moment().add(1, 'days').format("L");
         var d1 = moment().add(2,'days').format("L");
         var d2 = moment().add(3,'days').format("L");
@@ -105,7 +116,7 @@
         }
         wf += "<h2>" + response.city.name + "</h2>";
         $.each(response.list, function(index, val) {
-            wf += "<p>"; // Opening paragraph tag
+            wf += "<div class='five_day_div'"; // Opening paragraph tag
             wf += "<span>" + momentArr[index] + "</span>";
             wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
             var Kelvin = val.main.temp;
@@ -113,12 +124,19 @@
             wf += "Temp: " + Farenheit + "&degF"; // Temperature
             wf += "<span> | " + val.weather[0].description + "</span>"; 
             wf += "<span> | Humidity: " + val.main.humidity + "% </span>";           
-            wf += "</p>"; // Closing paragraph Tag
+            wf += "</div>"; // Closing paragraph Tag
+            // Fix to showFiveDay
             $("#showWeatherForecast").html(wf);
         });
     });
         }
 
+/*
+ var Kelvin = response.main.temp;
+            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
+           // $(".temp").text(Kelvin + " Kelvin | " + " Farenheit = " + Farenheit + " Farenheit");
+           var pTwo = $("<p>").text("Temp: " + Farenheit + " ˚F");
+*/
         $("#addCitybtn").on("click", function () {
             event.preventDefault();
             console.log(event.target);
