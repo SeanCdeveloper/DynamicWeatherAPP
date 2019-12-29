@@ -1,4 +1,3 @@
-<!--Starter Code with Icon and UV Index included with other Weather Argumentss-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +16,10 @@
             display: inline-block;
             margin: 0 1% 1% 1%;
         }
+
+        #showWeatherForecast {
+            background: #d3d3d3;
+        }
     </style>
 </head>
 <body>
@@ -32,13 +35,21 @@
         </form>
         <div id="buttons-view"></div>
          <!--Element To Prepend Cities Searched To-->
+         <!--
         <div id="city-view"></div>
+        -->
+        <div class="city"></div>
+        <div id="icon"></div><img class="wIcon" src=""></div>
+        <div class="temp"></div>
+        <div class="humidity"></div>
+        <div class="wind"></div>
         <div class="uvIndex"></div>
         <div id="showWeatherForecast"></div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript">
+    
         // Initial Array of Cities
         var cities = []; 
 
@@ -54,37 +65,17 @@
             url: weatherURL,
             method: "GET"
         }).then(function (response) {
-            console.log(weatherURL);
-            console.log(response);
-            console.log(response.wind.speed);
-            console.log(response.weather[0].icon);
-            var cityDiv = $("<div class='cityDiv'>")
-            var cityCntryDisp = response.name + ", " + response.sys.country;
-            var pOne = $("<p>").text(cityCntryDisp + " (" + moment().format("L") + ")");
-            cityDiv.append(pOne);
-            var Kelvin = response.main.temp;
-            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-            var pTwo = $("<p>").text("Temp: " + Farenheit + " ˚F");
-            cityDiv.append(pTwo);
-            var humidityDisp = response.main.humidity;
-            var pThree = $("<p>").text("Humidity: " + humidityDisp);
-            cityDiv.append(pThree);
-            var windDisp = response.wind.speed;
-            var pFour = $("<p>").text("Wind Speed: " + windDisp);
-            cityDiv.append(pFour);
+            $(".city").text(response.name + " (" + moment().format("L") + ")");
             var imgCode = response.weather[0].icon;
             var imageURL = "http://openweathermap.org/img/w/" + imgCode + ".png";
-            var imageDisp = $("<img>").attr("src", imageURL);
-            cityDiv.append(imageDisp);
-            $("#city-view").prepend(cityDiv);
-           
-/*
+            $(".wIcon").attr("src", imageURL);
             var Kelvin = response.main.temp;
             var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-           // $(".temp").text(Kelvin + " Kelvin | " + " Farenheit = " + Farenheit + " Farenheit");
-*/
+            $(".temp").text("Temperature: " + Farenheit + " ˚F");
+            $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
+            $(".humidity").text("Humidity: " + response.main.humidity + "%");
         });
-        
+
         $.ajax({
             url: uviURL,
             method: "GET"
@@ -92,7 +83,7 @@
             console.log(response);
             var cityDiv = $("<div class='cityDiv'>")
             var uviDisp = response.value;
-            $(".uvIndex").html("<b>UV Index:  </b>" + response.value);
+            $(".uvIndex").text("UV Index: " + response.value);
         });
 
         $.ajax({
@@ -131,12 +122,6 @@
     });
         }
 
-/*
- var Kelvin = response.main.temp;
-            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-           // $(".temp").text(Kelvin + " Kelvin | " + " Farenheit = " + Farenheit + " Farenheit");
-           var pTwo = $("<p>").text("Temp: " + Farenheit + " ˚F");
-*/
         $("#addCitybtn").on("click", function () {
             event.preventDefault();
             console.log(event.target);
