@@ -39,8 +39,9 @@
         <div id="city-view"></div>
         -->
         <div class="city"></div>
-        <div id="icon"></div><img class="wIcon" src=""></div>
+        <div id="icon"><img class="wIcon" src=""></div>
         <div class="temp"></div>
+        <div class="weatherDescription"></div>
         <div class="humidity"></div>
         <div class="wind"></div>
         <div class="uvIndex"></div>
@@ -49,22 +50,39 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript">
-    
+
         // Initial Array of Cities
         var cities = []; 
 
         function displayCityInfo() {
 
         var searchedCity = $(this).attr("data-name");
-        var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
-        var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchedCity + "&appid=" + APIkey;
-        var uviURL = "https://api.openweathermap.org/data/2.5/uvi?lat=39.95&lon=-75.16&appid=" + APIkey;
-        var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchedCity + "&appid=" + APIkey;
 
+        var domainName = "https://api.openweathermap.org/data/2.5/";
+        var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
+        var lat = 39.95;
+        var lon = -75.16;
+        var weatherURL = domainName + "weather?q=" + searchedCity +"&appid=" + APIkey;
+        var uviURL = domainName + "uvi?lat=" + lat + "&lon=" + lon + "6&appid=" + APIkey;
+        
+        /* var uviURL = domainName + "uvi?lat=" + lat + "lon=" + lon + "6&appid=" + APIkey;*/
+        /* lat=39.95&lon=-75.1 */
+        var fiveDayURL = domainName + "forecast?q=" + searchedCity + "&appid=" + APIkey;
+        
         $.ajax({
             url: weatherURL,
             method: "GET"
         }).then(function (response) {
+            console.log(response);
+            var lat = (response["coord"].lat);
+            var lon = (response["coord"].lon);
+            console.log(lat); // displays "39.95"
+            console.log(lon); // displays "-75.16".
+
+            /* I want "var lat" and "var lon" to be dynamically added to the uvi    
+            search and change based on "var searchedCity"
+            ## "var searchedCity = $(this).attr("data-name");
+             */
             $(".city").text(response.name + " (" + moment().format("L") + ")");
             var imgCode = response.weather[0].icon;
             var imageURL = "http://openweathermap.org/img/w/" + imgCode + ".png";
@@ -72,6 +90,7 @@
             var Kelvin = response.main.temp;
             var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
             $(".temp").text("Temperature: " + Farenheit + " ˚F");
+            $(".weatherDescription").text(response.weather[0].description);
             $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
             $(".humidity").text("Humidity: " + response.main.humidity + "%");
         });
@@ -81,9 +100,8 @@
             method: "GET"
         }).then(function(response) {
             console.log(response);
-            var cityDiv = $("<div class='cityDiv'>")
             var uviDisp = response.value;
-            $(".uvIndex").text("UV Index: " + response.value);
+            $(".uvIndex").text("UV Index: " + uviDisp);
         });
 
         $.ajax({
@@ -103,7 +121,7 @@
         var momentArr = [d0, d1, d2, d3, d4];
 
         for (var i=0; i<momentArr.length; i++) {
-            console.log(momentArr[i]);
+            //console.log(momentArr[i]);
         }
         wf += "<h2>" + response.city.name + "</h2>";
         $.each(response.list, function(index, val) {
@@ -124,11 +142,8 @@
 
         $("#addCitybtn").on("click", function () {
             event.preventDefault();
-            console.log(event.target);
             var searchedCity = $("#cityQuery").val().trim();
-            console.log(searchedCity);
             cities.push(searchedCity);
-            console.log(cities);
             renderButtons();
         });
 
@@ -137,7 +152,7 @@
             for (var i = 0; i < cities.length; i++) {
                 var a = $("<button>");
                 a.addClass("newCity");
-                a.attr("data-name", cities[i]);
+                a.attr("data-name", cities[i]);    
                 a.text(cities[i]);
                 $("#buttons-view").append(a);
             }
