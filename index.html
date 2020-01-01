@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,45 @@
     <script src="./Assets/JavaScript/script.js"></script>
     -->
     <style>
+/* Input Element Modification 
+
+        #search {
+            width: 30%;
+            background: red;
+        }
+
+        #buttons-view {
+
+        }
+
+        aside {
+            width: 30%;
+        }
+/*
+/* Dynamic Btn Object, Displaying Weather, below */
+        .newCity {
+            display: block;
+            width: 23%;
+            margin: 1% 1% 1% 1%;
+        }
+
+/* Today's Weather Elements */
+        .todaysWeatherBlock {
+            float: right;
+            background: gold;
+            width: 75%;
+            margin: em em em em;
+            border: 2px solid #d3d3d3;
+        }
+        
+/*
+        .fiveDayWrapper { 
+            margin: 11em 0 0 0;
+            background: red;
+        }        
+*/
+
+/* Five-Day Forecast Elements */
         .five_day_div {
             background: blue;
             width: 18%;
@@ -17,127 +57,134 @@
             margin: 0 1% 1% 1%;
         }
 
+/* #showWeatherForecast Wraps the Five-Day Forecast */
         #showWeatherForecast {
+
             background: #d3d3d3;
+
+            margin: 15em 0 0 0;
         }
     </style>
 </head>
 <body>
     <!--Code for City Search-->
     <div class="container">
-        <div><h1 style="text-align: center">Weather Dashboard</h1></div>
+        <div>
+            <h1 style="text-align: center">Weather Dashboard</h1>
+        </div>
+        <aside>
         <form id="Search">
             <!--Input Field To Search for New Cities-->
             <label for="cityQuery">Search For a City:</label><br>
-            <input type="text" id="cityQuery"/>
+            <input type="text" id="cityQuery" />
             <!--Button type="submit" to trigger new movie addition-->
-            <input id="addCitybtn" type="submit" value="Add A City"/>
+            <input id="addCitybtn" type="submit" value="Add A City" />
         </form>
-        <div id="buttons-view"></div>
-         <!--Element To Prepend Cities Searched To-->
-         <!--
-        <div id="city-view"></div>
-        -->
-        <div class="city"></div>
-        <div id="icon"><img class="wIcon" src=""></div>
-        <div class="temp"></div>
-        <div class="weatherDescription"></div>
-        <div class="humidity"></div>
-        <div class="wind"></div>
-        <div class="uvIndex"></div>
-        <div id="showWeatherForecast"></div>
+        <!--Element For Buttons-->
+            <div id="buttons-view"></div>
+        </aside>
+        <!--Elements for Today's-Weather Block-->
+        <div class="todaysWeatherBlock">
+            <h2 class="city"></h2>
+            <div id="icon"><img class="wIcon" src=""></div>
+            <div class="temp"></div>
+            <div class="weatherDescription"></div>
+            <div class="humidity"></div>
+            <div class="wind"></div>
+            <div class="uvIndex"></div>
+        </div>
+        <div class="fiveDayWrapper">
+            <div id="showWeatherForecast"></div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript">
 
         // Initial Array of Cities
-        var cities = []; 
+        var cities = [];
 
         function displayCityInfo() {
 
-        var searchedCity = $(this).attr("data-name");
+            var searchedCity = $(this).attr("data-name");
 
-        var domainName = "https://api.openweathermap.org/data/2.5/";
-        var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
-        var lat = 39.95;
-        var lon = -75.16;
-        var weatherURL = domainName + "weather?q=" + searchedCity +"&appid=" + APIkey;
-        var uviURL = domainName + "uvi?lat=" + lat + "&lon=" + lon + "6&appid=" + APIkey;
-        
-        /* var uviURL = domainName + "uvi?lat=" + lat + "lon=" + lon + "6&appid=" + APIkey;*/
-        /* lat=39.95&lon=-75.1 */
-        var fiveDayURL = domainName + "forecast?q=" + searchedCity + "&appid=" + APIkey;
-        
-        $.ajax({
-            url: weatherURL,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            var lat = (response["coord"].lat);
-            var lon = (response["coord"].lon);
-            console.log(lat); // displays "39.95"
-            console.log(lon); // displays "-75.16".
+            var domainName = "https://api.openweathermap.org/data/2.5/";
+            var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
+            var lat = 39.95;
+            var lon = -75.16;
+            var weatherURL = domainName + "weather?q=" + searchedCity + "&appid=" + APIkey;
+            var uviURL = domainName + "uvi?lat=" + lat + "&lon=" + lon + "6&appid=" + APIkey;
 
-            /* I want "var lat" and "var lon" to be dynamically added to the uvi    
-            search and change based on "var searchedCity"
-            ## "var searchedCity = $(this).attr("data-name");
-             */
-            $(".city").text(response.name + " (" + moment().format("L") + ")");
-            var imgCode = response.weather[0].icon;
-            var imageURL = "http://openweathermap.org/img/w/" + imgCode + ".png";
-            $(".wIcon").attr("src", imageURL);
-            var Kelvin = response.main.temp;
-            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-            $(".temp").text("Temperature: " + Farenheit + " ˚F");
-            $(".weatherDescription").text(response.weather[0].description);
-            $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
-            $(".humidity").text("Humidity: " + response.main.humidity + "%");
-        });
+            /* var uviURL = domainName + "uvi?lat=" + lat + "lon=" + lon + "6&appid=" + APIkey;*/
+            /* lat=39.95&lon=-75.1 */
+            var fiveDayURL = domainName + "forecast?q=" + searchedCity + "&appid=" + APIkey;
 
-        $.ajax({
-            url: uviURL,
-            method: "GET"
-        }).then(function(response) {
-            console.log(response);
-            var uviDisp = response.value;
-            $(".uvIndex").text("UV Index: " + uviDisp);
-        });
+            $.ajax({
+                url: weatherURL,
+                method: "GET"
+            }).then(function (response) {
+                console.log(response);
+                var lat = (response["coord"].lat);
+                var lon = (response["coord"].lon);
+                console.log(lat); // displays "39.95"
+                console.log(lon); // displays "-75.16".
 
-        $.ajax({
-        url: fiveDayURL,
-        method: "GET",
-        data: {
-            cnt: "5"
-        }
-    }).then(function(response){
-        var wf = "";  
-        var d0 = moment().add(1, 'days').format("L");
-        var d1 = moment().add(2,'days').format("L");
-        var d2 = moment().add(3,'days').format("L");
-        var d3 = moment().add(4,'days').format("L");
-        var d4 = moment().add(5,'days').format("L");
+                /* I want "var lat" and "var lon" to be dynamically added to the uvi    
+                search and change based on "var searchedCity"
+                ## "var searchedCity = $(this).attr("data-name");
+                 */
+                $(".city").text(response.name + " (" + moment().format("L") + ")");
+                var imgCode = response.weather[0].icon;
+                var imageURL = "http://openweathermap.org/img/w/" + imgCode + ".png";
+                $(".wIcon").attr("src", imageURL);
+                var Kelvin = response.main.temp;
+                var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
+                $(".temp").text("Temperature: " + Farenheit + " ˚F");
+                $(".weatherDescription").text(response.weather[0].description);
+                $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
+                $(".humidity").text("Humidity: " + response.main.humidity + "%");
+            });
 
-        var momentArr = [d0, d1, d2, d3, d4];
+            $.ajax({
+                url: uviURL,
+                method: "GET"
+            }).then(function (response) {
+                console.log(response);
+                var uviDisp = response.value;
+                $(".uvIndex").text("UV Index: " + uviDisp);
+            });
 
-        for (var i=0; i<momentArr.length; i++) {
-            //console.log(momentArr[i]);
-        }
-        wf += "<h2>" + response.city.name + "</h2>";
-        $.each(response.list, function(index, val) {
-            wf += "<div class='five_day_div'"; // Opening paragraph tag
-            wf += "<span>" + momentArr[index] + "</span>";
-            wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
-            var Kelvin = val.main.temp;
-            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-            wf += "Temp: " + Farenheit + "&degF"; // Temperature
-            wf += "<span> | " + val.weather[0].description + "</span>"; 
-            wf += "<span> | Humidity: " + val.main.humidity + "% </span>";           
-            wf += "</div>"; // Closing paragraph Tag
-            // Fix to showFiveDay
-            $("#showWeatherForecast").html(wf);
-        });
-    });
+            $.ajax({
+                url: fiveDayURL,
+                method: "GET",
+                data: {
+                    cnt: "5"
+                }
+            }).then(function (response) {
+                var wf = "";
+                var d0 = moment().add(1, 'days').format("L");
+                var d1 = moment().add(2, 'days').format("L");
+                var d2 = moment().add(3, 'days').format("L");
+                var d3 = moment().add(4, 'days').format("L");
+                var d4 = moment().add(5, 'days').format("L");
+
+                var momentArr = [d0, d1, d2, d3, d4];
+
+                wf += "<h2>" + response.city.name + " Five-Day Forecast" + "</h2>";
+                $.each(response.list, function (index, val) {
+                    wf += "<div class='five_day_div'"; // Opening paragraph tag
+                    wf += "<span>" + momentArr[index] + "</span>";
+                    wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
+                    var Kelvin = val.main.temp;
+                    var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
+                    wf += "Temp: " + Farenheit + "&degF"; // Temperature
+                    wf += "<span> | " + val.weather[0].description + "</span>";
+                    wf += "<span> | Humidity: " + val.main.humidity + "% </span>";
+                    wf += "</div>"; // Closing paragraph Tag
+                    // Fix to showFiveDay
+                    $("#showWeatherForecast").html(wf);
+                });
+            });
         }
 
         $("#addCitybtn").on("click", function () {
@@ -152,7 +199,7 @@
             for (var i = 0; i < cities.length; i++) {
                 var a = $("<button>");
                 a.addClass("newCity");
-                a.attr("data-name", cities[i]);    
+                a.attr("data-name", cities[i]);
                 a.text(cities[i]);
                 $("#buttons-view").append(a);
             }
