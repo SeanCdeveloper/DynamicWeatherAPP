@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dynamic Weather App</title>
+    <title>hw6 BootStrap Prac</title>
     <!--
     <script src="./Assets/JavaScript/script.js"></script>
     -->
@@ -23,7 +22,8 @@
        /* Button for Adding A New City to Dynamic List */
 
         #addCitybtn {
-            background: skyblue;
+            background: #086788;
+            color: white;
         }
 
         #search {
@@ -31,7 +31,7 @@
         }
 
         #buttons-view {
-            background: green;
+            background: rgb(70, 77, 70);
         }
 
         aside {
@@ -70,12 +70,17 @@
             color: white;
             display: inline-block;
             margin: 0 1% 1% 1%;
+            padding: 1% 1% 1% 1%;
         }
 
         /* Five-Day Forecast Wrapper */
         #showWeatherForecast {
             margin: 2em 0 0 0;
             background: #d3d3d3;
+        }
+
+        article { 
+            background: #086788;
         }
     </style>
 </head>
@@ -115,35 +120,33 @@
                 </div>
             </div>
         </div>
-        <!--
-        <div class="row">
-            <div class="col-4"></div>
-            <div class="col-8">
-                <div class="fiveDayWrapper">
-                    <div id="showWeatherForecast"></div>
-                </div>
-            </div>
-        </div>
-    </div>
--->
+        <article id="data-att" data-columns="3" data-index-number="12314" 
+        data-lat='' data-lon=''></article>
+        <div id="data"></div>
         <!--Elements for Today's-Weather Block-->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script type="text/javascript">
 
+/*
+        var article = document.querySelector("#data-att");
+        console.log(article);
+        $("#data-att").text(article.dataset.columns + " and " + 
+        article.dataset.indexNumber + " and " 
+        + article.dataset.lat + " and " + article.dataset.lon);
+*/
+        
             // Initial Array of Cities
             var cities = [];
 
             function displayCityInfo() {
 
                 var searchedCity = $(this).attr("data-name");
-
                 var domainName = "https://api.openweathermap.org/data/2.5/";
                 var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
-                var lat = 39.95;
-                var lon = -75.1;
+                var dataLat = "39.95";
+                var dataLon = "-75.1";
                 var weatherURL = domainName + "weather?q=" + searchedCity + "&appid=" + APIkey;
-                var uviURL = domainName + "uvi?lat=" + lat + "&lon=" + lon + "6&appid=" + APIkey;
 
                 /* var uviURL = domainName + "uvi?lat=" + lat + "lon=" + lon + "6&appid=" + APIkey;*/
                 /* lat=39.95&lon=-75.1 */
@@ -158,6 +161,7 @@
                     var lon = (response["coord"].lon);
                     console.log(lat); // displays "39.95"
                     console.log(lon); // displays "-75.16".
+                    
                     /* I want "var lat" and "var lon" to be dynamically added to the uvi    
                     search and change based on "var searchedCity"
                     ## "var searchedCity = $(this).attr("data-name");
@@ -172,6 +176,8 @@
                     $(".weatherDescription").text(response.weather[0].description);
                     $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
                     $(".humidity").text("Humidity: " + response.main.humidity + "%");
+
+                    var uviURL = domainName + "uvi?lat=" + lat + "&lon=" + lon + "6&appid=" + APIkey;
 
                     $.ajax({
                         url: uviURL,
@@ -248,5 +254,4 @@
             $(document).on("click", ".newCity", displayCityInfo);
         </script>
 </body>
-
 </html>
