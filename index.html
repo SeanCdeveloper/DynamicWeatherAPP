@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +20,7 @@
             background: white;
         }
 
-       /* Button for Adding A New City to Dynamic List */
+        /* Button for Adding A New City to Dynamic List */
 
         #addCitybtn {
             background: #086788;
@@ -33,7 +34,9 @@
         }
 
         #buttons-view {
+            /*
             background: rgb(70, 77, 70);
+            */
         }
 
         aside {
@@ -54,9 +57,7 @@
         /* Input Elements: End */
 
         /* Weather Display Elements */
-        .todaysWeatherBlock {
-  
-        }
+        .todaysWeatherBlock {}
 
         /* Five-Day Forecast Elements */
         .five_day_div {
@@ -74,34 +75,36 @@
             background: #d3d3d3;
         }
 
-        /* Elements */ 
+        /* Elements */
         h1 {
-            text-align: center;
-            background: radial-gradient(#086788 40%, black 60%);
             color: white;
+            width: 100%;
+        }
+
+        #h1Wrap {
+            background: radial-gradient(#086788 40%, black 60%);
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <!--Code for City Search-->
     <div class="container">
-        <div>
-            <h1>Weather Dashboard</h1>
+        <div id="h1Wrap" class="row">
+                <h1>Weather Dashboard</h1>
         </div>
         <div class="row">
             <div id="formLWrap" class="col-4">
-                <aside>
-                    <form id="Search">
-                        <!--Input Field To Search for New Cities-->
-                        <label for="cityQuery">Search For A City:</label><br>
-                        <input type="text" id="cityQuery"></input>
-                        <!--Button type="submit" to trigger new movie addition-->
-                        <input id="addCitybtn" type="submit" value="Add A City" />
-                        <!--<button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>-->
-                    </form>
-                    <!--Element For Dynamic Buttons-->
-                    <div id="buttons-view"></div>
-                </aside>
+                <form id="Search">
+                    <!--Input Field To Search for New Cities-->
+                    <label for="cityQuery">Search For A City:</label><br>
+                    <input type="text" id="cityQuery"></input>
+                    <!--Button type="submit" to trigger new movie addition-->
+                    <input id="addCitybtn" type="submit" value="Add A City" />
+                    <!--<button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>-->
+                </form>
+                <!--Element For Dynamic Buttons-->
+                <div id="buttons-view"></div>
             </div>
             <div class="col-8">
                 <div class="todaysWeatherBlock">
@@ -122,7 +125,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script type="text/javascript">
-        
+
             // Initial Array of Cities
             var cities = [];
 
@@ -140,7 +143,7 @@
                 }).then(function (response) {
                     var lat = (response["coord"].lat);
                     var lon = (response["coord"].lon);
-                    
+
                     $(".city").text(response.name + " (" + moment().format("L") + ")");
                     var imgCode = response.weather[0].icon;
                     var imageURL = "http://openweathermap.org/img/w/" + imgCode + ".png";
