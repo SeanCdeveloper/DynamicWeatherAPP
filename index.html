@@ -26,8 +26,10 @@
             color: white;
         }
 
-        #search {
+        form#Search {
+            /*
             background: blue;
+            */
         }
 
         #buttons-view {
@@ -53,19 +55,12 @@
 
         /* Weather Display Elements */
         .todaysWeatherBlock {
-            background: gold;
+  
         }
-
-        /*
-        .fiveDayWrapper { 
-            margin: 11em 0 0 0;
-            background: red;
-        }        
-*/
 
         /* Five-Day Forecast Elements */
         .five_day_div {
-            background: blue;
+            background: #086788;
             width: 18%;
             color: white;
             display: inline-block;
@@ -79,8 +74,11 @@
             background: #d3d3d3;
         }
 
-        article { 
-            background: #086788;
+        /* Elements */ 
+        h1 {
+            text-align: center;
+            background: radial-gradient(#086788 40%, black 60%);
+            color: white;
         }
     </style>
 </head>
@@ -88,7 +86,7 @@
     <!--Code for City Search-->
     <div class="container">
         <div>
-            <h1 style="text-align: center">Weather Dashboard</h1>
+            <h1>Weather Dashboard</h1>
         </div>
         <div class="row">
             <div id="formLWrap" class="col-4">
@@ -96,7 +94,7 @@
                     <form id="Search">
                         <!--Input Field To Search for New Cities-->
                         <label for="cityQuery">Search For A City:</label><br>
-                        <input type="text" id="cityQuery" />
+                        <input type="text" id="cityQuery"></input>
                         <!--Button type="submit" to trigger new movie addition-->
                         <input id="addCitybtn" type="submit" value="Add A City" />
                         <!--<button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>-->
@@ -124,14 +122,6 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script type="text/javascript">
-
-/*
-        var article = document.querySelector("#data-att");
-        console.log(article);
-        $("#data-att").text(article.dataset.columns + " and " + 
-        article.dataset.indexNumber + " and " 
-        + article.dataset.lat + " and " + article.dataset.lon);
-*/
         
             // Initial Array of Cities
             var cities = [];
@@ -141,28 +131,16 @@
                 var searchedCity = $(this).attr("data-name");
                 var domainName = "https://api.openweathermap.org/data/2.5/";
                 var APIkey = "bbb815e9d5d661bba4a9ff4878159a9b";
-                var dataLat = "39.95";
-                var dataLon = "-75.1";
                 var weatherURL = domainName + "weather?q=" + searchedCity + "&appid=" + APIkey;
-
-                /* var uviURL = domainName + "uvi?lat=" + lat + "lon=" + lon + "6&appid=" + APIkey;*/
-                /* lat=39.95&lon=-75.1 */
                 var fiveDayURL = domainName + "forecast?q=" + searchedCity + "&appid=" + APIkey;
 
                 $.ajax({
                     url: weatherURL,
                     method: "GET"
                 }).then(function (response) {
-                    console.log(response);
                     var lat = (response["coord"].lat);
                     var lon = (response["coord"].lon);
-                    console.log(lat); // displays "39.95"
-                    console.log(lon); // displays "-75.16".
                     
-                    /* I want "var lat" and "var lon" to be dynamically added to the uvi    
-                    search and change based on "var searchedCity"
-                    ## "var searchedCity = $(this).attr("data-name");
-                     */
                     $(".city").text(response.name + " (" + moment().format("L") + ")");
                     var imgCode = response.weather[0].icon;
                     var imageURL = "http://openweathermap.org/img/w/" + imgCode + ".png";
@@ -180,23 +158,10 @@
                         url: uviURL,
                         method: "GET",
                     }).then(function (response) {
-                        console.log(response);
-                        console.log(lat);
-                        console.log(lon);
                         var uviDisp = response.value;
                         $(".uvIndex").text("UV Index: " + uviDisp);
                     });
                 });
-                /*
-                            $.ajax({
-                                url: uviURL,
-                                method: "GET"
-                            }).then(function (response) {
-                                console.log(response);
-                                var uviDisp = response.value;
-                                $(".uvIndex").text("UV Index: " + uviDisp);
-                            });
-                */
 
                 $.ajax({
                     url: fiveDayURL,
