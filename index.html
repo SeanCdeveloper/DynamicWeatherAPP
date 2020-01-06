@@ -56,12 +56,14 @@
         .todaysWeatherBlock {}
 
         /* Five-Day Forecast Elements */
+
         .five_day_div {
             background: #086788;
             max-width: 18%;
+            height: auto;
             color: white;
             display: inline-block;
-            margin: 0 1% 1% 1%;
+            margin: 1% 1% 1% 1%;
             padding: 1% 1% 1% 1%;
         }
 
@@ -81,6 +83,12 @@
             background: radial-gradient(#086788 40%, black 60%);
             text-align: center;
         }
+
+/*
+        .container { 
+            min-height: 100%;
+        }
+    */
     </style>
 </head>
 <body>
@@ -95,10 +103,10 @@
                     <!--Input Field To Search for New Cities-->
                     <label for="cityQuery">Search For A City:</label><br>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="cityQuery"/>
+                        <input type="text" class="form-control" id="cityQuery" />
                         <!--Button type="submit" to trigger new movie addition-->
                         <div class="input-group-append">
-                            <input id="addCitybtn" type="submit" value="Add A City"/>
+                            <input id="addCitybtn" type="submit" value="Add A City" />
                         </div>
                     </div>
                 </form>
@@ -114,12 +122,16 @@
                     <div class="humidity"></div>
                     <div class="wind"></div>
                     <div class="uvIndex"></div>
-                    <div class="fiveDayWrap">
-                        <div id="showWeatherForecast"></div>
+
+                    <div id="fiveDayWrap" class="container">
+                        <div class="row">
+                            <div id="showWeatherForecast"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
         <!--Elements for Today's-Weather Block-->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -183,7 +195,8 @@
 
                     wf += "<h2>" + response.city.name + " Five-Day Forecast" + "</h2>";
                     $.each(response.list, function (index, val) {
-                        wf += "<div class='five_day_div'"; // Opening paragraph tag
+                        wf += "<div class='five_day_div' class='card'>"; // Opening paragraph tag
+                        wf += "<div class='card-body'>";
                         wf += "<span>" + momentArr[index] + "</span>";
                         wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
                         var Kelvin = val.main.temp;
@@ -191,6 +204,7 @@
                         wf += "Temp: " + Farenheit + "&degF"; // Temperature
                         wf += "<span> | " + val.weather[0].description + "</span>";
                         wf += "<span> | Humidity: " + val.main.humidity + "% </span>";
+                        wf += "</div>";
                         wf += "</div>"; // Closing paragraph Tag
                         // Fix to showFiveDay
                         $("#showWeatherForecast").html(wf);
