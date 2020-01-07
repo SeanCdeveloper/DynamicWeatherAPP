@@ -14,18 +14,6 @@
             color: white;
         }
 
-        form#Search {
-            /*
-            background: blue;
-            */
-        }
-
-        #buttons-view {
-            /*
-            background: rgb(70, 77, 70);
-            */
-        }
-
         #formLWrap {
             background: #d3d3d3;
         }
@@ -38,9 +26,6 @@
         }
 
         /* Input Elements: End */
-
-        /* Weather Display Elements */
-        .todaysWeatherBlock {}
 
         /* Five-Day Forecast Elements */
 
@@ -70,9 +55,3 @@
             background: radial-gradient(#086788 40%, black 60%);
             text-align: center;
         }
-
-/*
-        .container { 
-            min-height: 100%;
-        }
-    */

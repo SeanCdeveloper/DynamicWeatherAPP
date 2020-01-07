@@ -56,7 +56,7 @@ function displayCityInfo() {
 
         wf += "<h2 id='dynah2' class='card-header'>" + response.city.name + " Five-Day Forecast" + "</h2>";
         $.each(response.list, function (index, val) {
-            wf += "<div class='five_day_div' class='card'>"; // Opening paragraph tag
+            wf += "<div class='five_day_div' class='col-2'>"; // Opening paragraph tag
             wf += "<div class='card-body'>";
             wf += "<div class='card-text'>" + momentArr[index] + "</div>";
             wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
