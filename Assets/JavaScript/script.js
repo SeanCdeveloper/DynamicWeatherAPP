@@ -54,17 +54,17 @@ function displayCityInfo() {
 
         var momentArr = [d0, d1, d2, d3, d4];
 
-        wf += "<h2>" + response.city.name + " Five-Day Forecast" + "</h2>";
+        wf += "<h2 id='dynah2' class='card-header'>" + response.city.name + " Five-Day Forecast" + "</h2>";
         $.each(response.list, function (index, val) {
             wf += "<div class='five_day_div' class='card'>"; // Opening paragraph tag
             wf += "<div class='card-body'>";
-            wf += "<span>" + momentArr[index] + "</span>";
+            wf += "<span class='card-text'>" + momentArr[index] + "</span>";
             wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
             var Kelvin = val.main.temp;
             var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-            wf += "<span>" + Farenheit + "&degF" + "</span><br>"; // Temperature
-            wf += "<span> " + val.weather[0].description + "</span></br>";
-            wf += "<span> Humidity: " + val.main.humidity + "% </span>";
+            wf += "<span class='card-text'>" + Farenheit + "&degF" + "</span><br>"; // Temperature
+            wf += "<span class='card-text'> " + val.weather[0].description + "</span></br>";
+            wf += "<span class='card-text'> Humidity: " + val.main.humidity + "% </span>";
             wf += "</div>";
             wf += "</div>"; // Closing paragraph Tag
             $("#showWeatherForecast").html(wf);
