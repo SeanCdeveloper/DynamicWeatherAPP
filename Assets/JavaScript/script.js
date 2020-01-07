@@ -58,13 +58,13 @@ function displayCityInfo() {
         $.each(response.list, function (index, val) {
             wf += "<div class='five_day_div' class='card'>"; // Opening paragraph tag
             wf += "<div class='card-body'>";
-            wf += "<span class='card-text'>" + momentArr[index] + "</span>";
+            wf += "<div class='card-text'>" + momentArr[index] + "</div>";
             wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
             var Kelvin = val.main.temp;
             var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-            wf += "<span class='card-text'>" + Farenheit + "&degF" + "</span><br>"; // Temperature
-            wf += "<span class='card-text'> " + val.weather[0].description + "</span></br>";
-            wf += "<span class='card-text'> Humidity: " + val.main.humidity + "% </span>";
+            wf += "<div class='card-text'>" + Farenheit + "&degF" + "</div><br>"; // Temperature
+            wf += "<div class='card-text'> " + val.weather[0].description + "</div><br>";
+            wf += "<div class='card-text'> Humidity: " + val.main.humidity + "% </div>";
             wf += "</div>";
             wf += "</div>"; // Closing paragraph Tag
             $("#showWeatherForecast").html(wf);
