@@ -62,12 +62,11 @@ function displayCityInfo() {
             wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
             var Kelvin = val.main.temp;
             var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-            wf += "Temp: " + Farenheit + "&degF"; // Temperature
-            wf += "<span> | " + val.weather[0].description + "</span>";
-            wf += "<span> | Humidity: " + val.main.humidity + "% </span>";
+            wf += "<span>" + Farenheit + "&degF" + "</span><br>"; // Temperature
+            wf += "<span> " + val.weather[0].description + "</span></br>";
+            wf += "<span> Humidity: " + val.main.humidity + "% </span>";
             wf += "</div>";
             wf += "</div>"; // Closing paragraph Tag
-            // Fix to showFiveDay
             $("#showWeatherForecast").html(wf);
         });
     });
@@ -114,10 +113,10 @@ console.log(lsSearched);
 function storeItems() {
     var citiesSearched;
     if (localStorage.getItem("citiesSearched") === null) {
-        citiesSearched = []; 
+        citiesSearched = [];
     } else {
         citiesSearched = JSON.pars e(localStorage.getItem("citiesSearched"))
- 
+
     }
 }
 */
