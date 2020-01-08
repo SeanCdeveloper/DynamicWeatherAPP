@@ -98,25 +98,3 @@ function renderButtons() {
 
 $(document).on("click", ".newCity", displayCityInfo);
 
-/*
-lsSearched.push(lsGet);
-console.log(lsSearched);
-*/
-
-
-/*
-            var city0 = localStorage.getItem("citiesSearced");
-            $("#buttons-view").text(city0);
-*/
-
-/*
-function storeItems() {
-    var citiesSearched;
-    if (localStorage.getItem("citiesSearched") === null) {
-        citiesSearched = [];
-    } else {
-        citiesSearched = JSON.pars e(localStorage.getItem("citiesSearched"))
-
-    }
-}
-*/
