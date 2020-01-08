@@ -55,3 +55,7 @@
             background: radial-gradient(#086788 40%, black 60%);
             text-align: center;
         }
+
+        .card-text {
+            height: 48px;
+        }
