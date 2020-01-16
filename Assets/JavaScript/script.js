@@ -53,7 +53,7 @@ function displayCityInfo() {
         var d4 = moment().add(5, 'days').format("L");
 
         var momentArr = [d0, d1, d2, d3, d4];
-
+        console.log(response);
         wf += "<h2 id='dynah2' class='card-header'>" + response.city.name + " Five-Day Forecast" + "</h2>";
         $.each(response.list, function (index, val) {
             wf += "<div class='five_day_div' class='col-2'>"; // Opening paragraph tag
@@ -76,10 +76,12 @@ $("#addCitybtn").on("click", function () {
     event.preventDefault();
     var searchedCity = $("#cityQuery").val().trim();
     cities.push(searchedCity);
+    localStorage.setItem("citiesSearched", cities);
     renderButtons();
 });
 
-
+var lsSearched = [];
+//localStorage.setItem("citiesSearched", cities[i]);
 function renderButtons() {
     $("#buttons-view").empty();
     for (var i = 0; i < cities.length; i++) {
@@ -87,14 +89,15 @@ function renderButtons() {
         a.addClass("newCity");
         a.attr("data-name", cities[i]);
         a.text(cities[i]);
-        localStorage.setItem("citiesSearched", cities[i]);
-        var lsGet = localStorage.getItem("citiesSearched");
-        console.log(lsGet);
-        lsSearched.push(lsGet);
-        console.log(lsSearched);
+     //   lsSearched.push();
         $("#buttons-view").append(a);
     }
 }
 
-$(document).on("click", ".newCity", displayCityInfo);
+$(document).on("click", ".newCity", displayCityInfo); 
+
+function renderLastRegistered() {
+    var lsGet = localStorage.getItem("citiesSearched");
+    console.log(lsGet); // Returns City Searched
+}  
 
