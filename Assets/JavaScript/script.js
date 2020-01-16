@@ -1,5 +1,7 @@
+// Initial Array of Cities
 var cities = [];
-var lsSearched = [];
+
+renderLastRegistered();
 
 function displayCityInfo() {
 
@@ -53,21 +55,21 @@ function displayCityInfo() {
         var d4 = moment().add(5, 'days').format("L");
 
         var momentArr = [d0, d1, d2, d3, d4];
-        console.log(response);
+
         wf += "<h2 id='dynah2' class='card-header'>" + response.city.name + " Five-Day Forecast" + "</h2>";
-        $.each(response.list, function (index, val) {
-            wf += "<div class='five_day_div' class='col-2'>"; // Opening paragraph tag
-            wf += "<div class='card-body'>";
-            wf += "<div class='card-text'>" + momentArr[index] + "</div>";
-            wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
-            var Kelvin = val.main.temp;
-            var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
-            wf += "<div class='card-text'>" + Farenheit + "&degF" + "</div><br>"; // Temperature
-            wf += "<div class='card-text'> " + val.weather[0].description + "</div><br>";
-            wf += "<div class='card-text'> Humidity: " + val.main.humidity + "% </div>";
-            wf += "</div>";
-            wf += "</div>"; // Closing paragraph Tag
-            $("#showWeatherForecast").html(wf);
+            $.each(response.list, function (index, val) {
+                wf += "<div class='five_day_div' class='col-10'>"; // Opening paragraph tag
+                wf += "<div class='card-body'>";
+                wf += "<div class='card-text'>" + momentArr[index] + "</div>";
+                wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>"; // Icon
+                var Kelvin = val.main.temp;
+                var Farenheit = Math.floor((Kelvin - 273.15) * 1.80 + 32);
+                wf += "<div class='card-text'>" + Farenheit + "&degF" + "</div><br>"; // Temperature
+                wf += "<div class='card-text'> " + val.weather[0].description + "</div><br>";
+                wf += "<div class='card-text'> Humidity: " + val.main.humidity + "% </div>";
+                wf += "</div>";
+                wf += "</div>"; // Closing paragraph Tag
+                $("#showWeatherForecast").html(wf);
         });
     });
 }
@@ -80,8 +82,7 @@ $("#addCitybtn").on("click", function () {
     renderButtons();
 });
 
-var lsSearched = [];
-//localStorage.setItem("citiesSearched", cities[i]);
+//var lsSearched = [];
 function renderButtons() {
     $("#buttons-view").empty();
     for (var i = 0; i < cities.length; i++) {
@@ -93,11 +94,14 @@ function renderButtons() {
         $("#buttons-view").append(a);
     }
 }
-
+// $("#buttons-view").append(lsGet);
 $(document).on("click", ".newCity", displayCityInfo); 
 
 function renderLastRegistered() {
     var lsGet = localStorage.getItem("citiesSearched");
     console.log(lsGet); // Returns City Searched
+    //$("#buttons-view").text(lsGet);
+    //renderButtons(lsGet);
 }  
-
+/* I want the button Objects, "a", to display the last cities 
+searched upon refresh. */
